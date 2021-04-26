@@ -1,4 +1,4 @@
-Waterfall
+Waterfall [![Build Status](https://jenkins.astrocube.net/job/Waterfall/badge/icon)](https://jenkins.astrocube.net/job/Waterfall/)
 =========
 
 Waterfall is a fork of the well-known [BungeeCord](https://github.com/SpigotMC/BungeeCord) server teleportation suite.
@@ -67,6 +67,23 @@ dependencies {
 To compile Waterfall, you need JDK8, git, bash, maven, and an internet connection.
 
 Clone this repo, run `./waterfall b` from *bash*, get jar from Waterfall-Proxy/bootstrap/target/
+
+
+## Using Guice
+
+This Astrocube version contains Guice integration for those environments where Dependency Injection is needed. Every `Plugin` has a configuring method that can be used and will be dynamically imported.
+
+```Java
+public class CommonsBungee extends Plugin {
+
+    @Override
+    public void configure(ProtectedBinder binder) {
+        // Binder is encapsulated. You should expose or use the Public Binder to share bindings across plugins.
+    }
+
+}
+```
+
 
 ## Join us
 
