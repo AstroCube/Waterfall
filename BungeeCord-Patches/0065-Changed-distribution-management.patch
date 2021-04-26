@@ -1,0 +1,30 @@
+From 5691499fa46483e52f9f5de1464ab1bbe0c027f6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ian=20Casta=C3=B1o?= <ianfe@martina.com.co>
+Date: Mon, 26 Apr 2021 15:29:59 -0500
+Subject: [PATCH] Changed distribution management
+
+
+diff --git a/pom.xml b/pom.xml
+index 56bb4a7a..d8b23f3b 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -76,12 +76,12 @@
+ 
+     <distributionManagement>
+         <repository>
+-            <id>papermc-releases</id>
+-            <url>https://papermc.io/repo/repository/maven-releases/</url>
++            <id>maven-releases</id>
++            <url>https://repo.astrocube.net/repository/maven-releases</url>
+         </repository>
+         <snapshotRepository>
+-            <id>papermc-snapshots</id>
+-            <url>https://papermc.io/repo/repository/maven-snapshots/</url>
++            <id>maven-snapshots</id>
++            <url>https://repo.astrocube.net/repository/maven-snapshots</url>
+         </snapshotRepository>
+     </distributionManagement>
+ 
+-- 
+2.31.1.windows.1
+
