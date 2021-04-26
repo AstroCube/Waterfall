@@ -1,4 +1,4 @@
-Waterfall [![Build Status](https://jenkins.astrocube.net/job/Waterfall/badge/icon)](https://jenkins.astrocube.net/job/Waterfall/)
+Waterfall [![Build Status](https://jenkins.astrocube.net/buildStatus/icon?job=Waterfall)](https://jenkins.astrocube.net/job/Waterfall/)
 =========
 
 Waterfall is a fork of the well-known [BungeeCord](https://github.com/SpigotMC/BungeeCord) server teleportation suite.
