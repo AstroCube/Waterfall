@@ -1,0 +1,613 @@
+From c5923adef01776c31f4d855ac9482d7ea0b885e1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ian=20Casta=C3=B1o?= <ianfe@martina.com.co>
+Date: Mon, 26 Apr 2021 14:48:11 -0500
+Subject: [PATCH] Created Guice implementation
+
+
+diff --git a/api/pom.xml b/api/pom.xml
+index ca1ed881..490e0eb3 100644
+--- a/api/pom.xml
++++ b/api/pom.xml
+@@ -19,6 +19,11 @@
+     <description>API implemented by the Elastic Portal Suite</description>
+ 
+     <dependencies>
++        <dependency>
++            <groupId>com.google.inject</groupId>
++            <artifactId>guice</artifactId>
++            <version>5.0.1</version>
++        </dependency>
+         <dependency>
+             <groupId>io.github.waterfallmc</groupId>
+             <artifactId>waterfall-chat</artifactId>
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+index 3d1e9a3a..63034b2d 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+@@ -11,6 +11,8 @@ import lombok.Getter;
+ import net.md_5.bungee.api.ProxyServer;
+ import net.md_5.bungee.api.config.ConfigurationAdapter;
+ import net.md_5.bungee.api.scheduler.GroupedThreadFactory;
++import net.md_5.bungee.inject.ProtectedBinder;
++import net.md_5.bungee.inject.ProtectedModule;
+ 
+ /**
+  * Represents any Plugin that may be loaded at runtime to enhance existing
+@@ -36,6 +38,11 @@ public class Plugin
+         ( (PluginClassloader) classLoader ).init( this );
+     }
+ 
++    public void configure(ProtectedBinder binder)
++    {
++
++    }
++
+     protected Plugin(ProxyServer proxy, PluginDescription description)
+     {
+         ClassLoader classLoader = getClass().getClassLoader();
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+index 90031156..31487ff5 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+@@ -26,6 +26,8 @@ import java.util.Stack;
+ import java.util.jar.JarEntry;
+ import java.util.jar.JarFile;
+ import java.util.logging.Level;
++
++import com.google.inject.AbstractModule;
+ import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent; // Waterfall
+ import io.github.waterfallmc.waterfall.exception.ProxyCommandException; // Waterfall
+ import io.github.waterfallmc.waterfall.exception.ProxyEventException; // Waterfall
+@@ -39,6 +41,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
+ import net.md_5.bungee.event.EventBus;
+ import net.md_5.bungee.event.EventHandler;
+ import net.md_5.bungee.event.EventHandlerMethod; //Waterfall - Exception event
++import net.md_5.bungee.inject.ProtectedBinder;
++import net.md_5.bungee.inject.ProtectedModule;
+ import org.yaml.snakeyaml.Yaml;
+ import org.yaml.snakeyaml.constructor.Constructor;
+ import org.yaml.snakeyaml.introspector.PropertyUtils;
+@@ -48,7 +52,7 @@ import org.yaml.snakeyaml.introspector.PropertyUtils;
+  * example event handling and plugin management.
+  */
+ @RequiredArgsConstructor
+-public final class PluginManager
++public final class PluginManager extends AbstractModule
+ {
+ 
+     /*========================================================================*/
+@@ -145,6 +149,15 @@ public final class PluginManager
+         return commandMap.get( commandLower );
+     }
+ 
++    @Override
++    public void configure()
++    {
++        for ( Plugin plugin : plugins.values() )
++        {
++            ProtectedBinder.newProtectedBinder(binder()).install(new PluginModule(plugin));
++        }
++    }
++
+     /**
+      * Checks if the command is registered and can possibly be executed by the
+      * sender (without taking permissions into account).
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+new file mode 100644
+index 00000000..aa5ce276
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+@@ -0,0 +1,21 @@
++package net.md_5.bungee.api.plugin;
++
++import net.md_5.bungee.inject.ProtectedModule;
++
++public class PluginModule extends ProtectedModule
++{
++        
++    private Plugin plugin;
++        
++    public PluginModule(Plugin plugin)
++    {
++        this.plugin = plugin;
++    }
++
++    @Override
++    public void configure()
++    {
++        bind( Plugin.class ).toInstance( plugin );
++        plugin.configure( binder() );
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java b/api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java
+new file mode 100644
+index 00000000..7b7e60c6
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java
+@@ -0,0 +1,167 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.*;
++import com.google.inject.binder.AnnotatedBindingBuilder;
++import com.google.inject.binder.AnnotatedConstantBindingBuilder;
++import com.google.inject.binder.LinkedBindingBuilder;
++import com.google.inject.matcher.Matcher;
++import com.google.inject.spi.*;
++import org.aopalliance.intercept.MethodInterceptor;
++
++import java.lang.annotation.Annotation;
++import java.lang.reflect.Method;
++
++public interface ForwardingBinder extends Binder {
++
++    Binder forwardedBinder();
++
++    @Override
++    default void bindInterceptor(Matcher<? super Class<?>> classMatcher, Matcher<? super Method> methodMatcher, MethodInterceptor... interceptors) {
++        forwardedBinder().bindInterceptor(classMatcher, methodMatcher, interceptors);
++    }
++
++    @Override
++    default void bindScope(Class<? extends Annotation> annotationType, Scope scope) {
++        forwardedBinder().bindScope(annotationType, scope);
++    }
++
++    @Override
++    default <T> LinkedBindingBuilder<T> bind(Key<T> key) {
++        return forwardedBinder().bind(key);
++    }
++
++    @Override
++    default <T> AnnotatedBindingBuilder<T> bind(TypeLiteral<T> typeLiteral) {
++        return forwardedBinder().bind(typeLiteral);
++    }
++
++    @Override
++    default <T> AnnotatedBindingBuilder<T> bind(Class<T> type) {
++        return forwardedBinder().bind(type);
++    }
++
++    @Override
++    default AnnotatedConstantBindingBuilder bindConstant() {
++        return forwardedBinder().bindConstant();
++    }
++
++    @Override
++    default <T> void requestInjection(TypeLiteral<T> type, T instance) {
++        forwardedBinder().requestInjection(type, instance);
++    }
++
++    @Override
++    default void requestInjection(Object instance) {
++        forwardedBinder().requestInjection(instance);
++    }
++
++    @Override
++    default void requestStaticInjection(Class<?>... types) {
++        forwardedBinder().requestStaticInjection(types);
++    }
++
++    @Override
++    default void install(Module module) {
++        forwardedBinder().install(module);
++    }
++
++    @Override
++    default Stage currentStage() {
++        return forwardedBinder().currentStage();
++    }
++
++    @Override
++    default void addError(String message, Object... arguments) {
++        forwardedBinder().addError(message, arguments);
++    }
++
++    @Override
++    default void addError(Throwable t) {
++        forwardedBinder().addError(t);
++    }
++
++    @Override
++    default void addError(Message message) {
++        forwardedBinder().addError(message);
++    }
++
++    @Override
++    default <T> Provider<T> getProvider(Key<T> key) {
++        return forwardedBinder().getProvider(key);
++    }
++
++    @Override
++    default <T> Provider<T> getProvider(Dependency<T> dependency) {
++        return forwardedBinder().getProvider(dependency);
++    }
++
++    @Override
++    default <T> Provider<T> getProvider(Class<T> type) {
++        return forwardedBinder().getProvider(type);
++    }
++
++    @Override
++    default <T> MembersInjector<T> getMembersInjector(TypeLiteral<T> typeLiteral) {
++        return forwardedBinder().getMembersInjector(typeLiteral);
++    }
++
++    @Override
++    default <T> MembersInjector<T> getMembersInjector(Class<T> type) {
++        return forwardedBinder().getMembersInjector(type);
++    }
++
++    @Override
++    default void convertToTypes(Matcher<? super TypeLiteral<?>> typeMatcher, TypeConverter converter) {
++        forwardedBinder().convertToTypes(typeMatcher, converter);
++    }
++
++    @Override
++    default void bindListener(Matcher<? super TypeLiteral<?>> typeMatcher, TypeListener listener) {
++        forwardedBinder().bindListener(typeMatcher, listener);
++    }
++
++    @Override
++    default void bindListener(Matcher<? super Binding<?>> bindingMatcher, ProvisionListener... listeners) {
++        forwardedBinder().bindListener(bindingMatcher, listeners);
++    }
++
++    @Override
++    default Binder withSource(Object source) {
++        return forwardedBinder().withSource(source);
++    }
++
++    @Override
++    default Binder skipSources(Class... classesToSkip) {
++        return forwardedBinder().skipSources(classesToSkip);
++    }
++
++    @Override
++    default PrivateBinder newPrivateBinder() {
++        return forwardedBinder().newPrivateBinder();
++    }
++
++    @Override
++    default void requireExplicitBindings() {
++        forwardedBinder().requireExplicitBindings();
++    }
++
++    @Override
++    default void disableCircularProxies() {
++        forwardedBinder().disableCircularProxies();
++    }
++
++    @Override
++    default void requireAtInjectOnConstructors() {
++        forwardedBinder().requireAtInjectOnConstructors();
++    }
++
++    @Override
++    default void requireExactBindingAnnotations() {
++        forwardedBinder().requireExactBindingAnnotations();
++    }
++
++    @Override
++    default void scanModulesForAnnotatedMethods(ModuleAnnotatedMethodScanner scanner) {
++        forwardedBinder().scanModulesForAnnotatedMethods(scanner);
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java b/api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java
+new file mode 100644
+index 00000000..8ef7d989
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java
+@@ -0,0 +1,36 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.Key;
++import com.google.inject.PrivateBinder;
++import com.google.inject.TypeLiteral;
++import com.google.inject.binder.AnnotatedElementBuilder;
++
++public interface ForwardingPrivateBinder extends ForwardingBinder, PrivateBinder {
++
++    PrivateBinder forwardedBinder();
++
++    @Override
++    default void expose(Key<?> key) {
++        forwardedBinder().expose(key);
++    }
++
++    @Override
++    default AnnotatedElementBuilder expose(Class<?> type) {
++        return forwardedBinder().expose(type);
++    }
++
++    @Override
++    default AnnotatedElementBuilder expose(TypeLiteral<?> type) {
++        return forwardedBinder().expose(type);
++    }
++
++    @Override
++    default PrivateBinder withSource(Object source) {
++        return forwardedBinder().withSource(source);
++    }
++
++    @Override
++    default PrivateBinder skipSources(Class... classesToSkip) {
++        return forwardedBinder().skipSources(classesToSkip);
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java b/api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java
+new file mode 100644
+index 00000000..e585f557
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java
+@@ -0,0 +1,24 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.Binder;
++
++public interface ForwardingProtectedBinder extends ProtectedBinder, ForwardingPrivateBinder {
++
++    @Override
++    ProtectedBinder forwardedBinder();
++
++    @Override
++    default Binder publicBinder() {
++        return forwardedBinder().publicBinder();
++    }
++
++    @Override
++    default ProtectedBinder withSource(Object source) {
++        return forwardedBinder().withSource(source);
++    }
++
++    @Override
++    default ProtectedBinder skipSources(Class... classesToSkip) {
++        return forwardedBinder().skipSources(classesToSkip);
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java b/api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java
+new file mode 100644
+index 00000000..80d4747a
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java
+@@ -0,0 +1,31 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.Binder;
++
++/**
++ * A {@link com.google.inject.PrivateBinder} that provides direct access to the enclosing
++ * environment through {@link #publicBinder()}. This is the same environment that you create
++ * bindings in by calling {@link #expose}, but access to the binder itself offers more flexibility.
++ *
++ * {@link ProtectedBinder}s are created by calling {@link #newProtectedBinder(Binder)}.
++ *
++ * @see ProtectedModule
++ */
++public interface ProtectedBinder extends ForwardingPrivateBinder {
++
++    Binder publicBinder();
++
++    default ProtectedBinder withSource(Object source) {
++        return new ProtectedBinderImpl(publicBinder().withSource(source),
++                forwardedBinder().withSource(source));
++    }
++
++    default ProtectedBinder skipSources(Class... classesToSkip) {
++        return new ProtectedBinderImpl(publicBinder().skipSources(classesToSkip),
++                forwardedBinder().skipSources(classesToSkip));
++    }
++
++    static ProtectedBinder newProtectedBinder(Binder parent) {
++        return new ProtectedBinderImpl(parent, parent.newPrivateBinder());
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java b/api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java
+new file mode 100644
+index 00000000..ce10ad42
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java
+@@ -0,0 +1,71 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.Binder;
++import com.google.inject.Module;
++import com.google.inject.PrivateBinder;
++
++public class ProtectedBinderImpl implements ProtectedBinder {
++
++    private static Class[] SKIP = new Class[]{
++            ForwardingBinder.class,
++            ForwardingPrivateBinder.class,
++            ForwardingProtectedBinder.class,
++            ProtectedBinder.class,
++            ProtectedBinderImpl.class,
++            ProtectedModule.class
++    };
++
++    private final Binder global;
++    private final PrivateBinder local;
++
++    ProtectedBinderImpl(Binder global, PrivateBinder local) {
++        this.global = global.skipSources(SKIP);
++        this.local = (local instanceof ProtectedBinder ? ((ProtectedBinder) local).forwardedBinder() : local).skipSources(SKIP);
++    }
++
++    @Override
++    public PrivateBinder forwardedBinder() {
++        return local;
++    }
++
++    @Override
++    public Binder publicBinder() {
++        return global;
++    }
++
++    /**
++     * This hack is used to pass the current {@link ProtectedBinder} through Guice
++     * when installing a {@link ProtectedModule}. Guice will pass its own {@link Binder}
++     * to {@link ProtectedModule#configure(Binder)}, and we use this thread-local
++     * to get the {@link ProtectedBinder} wrapping it.
++     *
++     * We could try and implement the install process ourselves, but then we would miss out
++     * on Guice's module functionality, such as deduplication, error tracing, and so on.
++     */
++
++    private static final ThreadLocal<ProtectedBinderImpl> CURRENT = new ThreadLocal<>();
++
++    @Override
++    public void install(Module module) {
++        final ProtectedBinderImpl prev = CURRENT.get();
++        CURRENT.set(this);
++        try {
++            local.install(module);
++        } finally {
++            CURRENT.set(prev);
++        }
++    }
++
++    public static ProtectedBinder current(Binder binder) {
++        if(binder instanceof ProtectedBinder) {
++            return (ProtectedBinder) binder;
++        }
++
++        final ProtectedBinderImpl current = ProtectedBinderImpl.CURRENT.get();
++        if(current != null && current.local == binder) {
++            return current;
++        }
++
++        return null;
++    }
++}
+\ No newline at end of file
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java b/api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java
+new file mode 100644
+index 00000000..8fe3be38
+--- /dev/null
++++ b/api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java
+@@ -0,0 +1,80 @@
++package net.md_5.bungee.inject;
++
++import com.google.inject.Binder;
++import com.google.inject.Module;
++
++/**
++ * A {@link Module} that uses a {@link ProtectedBinder}.
++ *
++ * This module must be installed through a {@link ProtectedBinder}, which must be created explicitly
++ * by calling {@link ProtectedBinder#newProtectedBinder(Binder)}. Attempting to install this module
++ * into a normal {@link Binder} fails with an error.
++ *
++ * Unlike {@link com.google.inject.PrivateModule}, installing this never creates a new {@link ProtectedBinder}
++ * automatically. This allows an entire tree of {@link ProtectedModule}s to share the same public binder.
++ *
++ * @see ProtectedBinder
++ */
++public abstract class ProtectedModule implements Module, ForwardingProtectedBinder {
++
++    protected void configure() {}
++
++    private final Object moduleKey;
++    private ProtectedBinder binder;
++
++    protected ProtectedModule(Object moduleKey) {
++        this.moduleKey = moduleKey;
++    }
++
++    protected ProtectedModule() {
++        this(null);
++    }
++
++    @Override
++    public int hashCode() {
++        return moduleKey != null ? moduleKey.hashCode()
++                : super.hashCode();
++    }
++
++    @Override
++    public boolean equals(Object obj) {
++        if(moduleKey != null) {
++            return obj != null &&
++                    getClass().equals(obj.getClass()) &&
++                    moduleKey.equals(((ProtectedModule) obj).moduleKey);
++        } else {
++            return super.equals(obj);
++        }
++    }
++
++    @Override
++    public final ProtectedBinder forwardedBinder() {
++        return binder();
++    }
++
++    protected final ProtectedBinder binder() {
++        if(binder == null) {
++            throw new IllegalStateException("Binder is only usable during configuration");
++        }
++        return binder;
++    }
++
++    @Override
++    public final void configure(Binder binder) {
++        final ProtectedBinder old = this.binder;
++        this.binder = ProtectedBinderImpl.current(binder);
++        try {
++            if(this.binder != null) {
++                configure();
++            } else {
++                binder.skipSources(ProtectedModule.class).addError(
++                        ProtectedModule.class.getSimpleName() +
++                                " must be installed with a " +
++                                ProtectedBinder.class.getSimpleName()
++                );
++            }
++        } finally {
++            this.binder = old;
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
+index 2938f2f1..6b8855bf 100644
+--- a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
++++ b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
+@@ -9,6 +9,9 @@ import com.google.common.collect.Sets;
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ import com.google.gson.Gson;
+ import com.google.gson.GsonBuilder;
++import com.google.inject.Guice;
++import com.google.inject.Injector;
++import com.google.inject.Stage;
+ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+ import io.github.waterfallmc.waterfall.conf.WaterfallConfiguration;
+ import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent;
+@@ -100,6 +103,12 @@ import net.md_5.bungee.util.CaseInsensitiveMap;
+ public class BungeeCord extends ProxyServer
+ {
+ 
++
++    /**
++     *  Injector
++     */
++    public Injector injector;
++
+     /**
+      * Current operation state.
+      */
+@@ -286,6 +295,9 @@ public class BungeeCord extends ProxyServer
+ 
+         isRunning = true;
+ 
++        injector = Guice.createInjector(Stage.PRODUCTION, pluginManager);
++        injector.injectMembers(this);
++
+         pluginManager.enablePlugins();
+ 
+         if ( config.getThrottle() > 0 )
+-- 
+2.31.1.windows.1
+
