@@ -1,0 +1,127 @@
+From ea0d17cdd170d8c0a995519ed24781089a3d3dd0 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ian=20Casta=C3=B1o?= <ianfe@martina.com.co>
+Date: Mon, 26 Apr 2021 19:45:34 -0500
+Subject: [PATCH] Rewritten injections of fixed
+
+
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java b/api/src/main/java/me/fixeddev/inject/ForwardingBinder.java
+similarity index 99%
+rename from api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java
+rename to api/src/main/java/me/fixeddev/inject/ForwardingBinder.java
+index 7b7e60c6..49eab110 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ForwardingBinder.java
++++ b/api/src/main/java/me/fixeddev/inject/ForwardingBinder.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.*;
+ import com.google.inject.binder.AnnotatedBindingBuilder;
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java b/api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java
+similarity index 96%
+rename from api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java
+rename to api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java
+index 8ef7d989..d34a7961 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ForwardingPrivateBinder.java
++++ b/api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.Key;
+ import com.google.inject.PrivateBinder;
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java b/api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java
+similarity index 94%
+rename from api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java
+rename to api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java
+index e585f557..7bb8510f 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ForwardingProtectedBinder.java
++++ b/api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.Binder;
+ 
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java b/api/src/main/java/me/fixeddev/inject/ProtectedBinder.java
+similarity index 97%
+rename from api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java
+rename to api/src/main/java/me/fixeddev/inject/ProtectedBinder.java
+index 80d4747a..43f10baf 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinder.java
++++ b/api/src/main/java/me/fixeddev/inject/ProtectedBinder.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.Binder;
+ 
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java b/api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java
+similarity index 98%
+rename from api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java
+rename to api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java
+index ce10ad42..201b91a6 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ProtectedBinderImpl.java
++++ b/api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.Binder;
+ import com.google.inject.Module;
+diff --git a/api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java b/api/src/main/java/me/fixeddev/inject/ProtectedModule.java
+similarity index 98%
+rename from api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java
+rename to api/src/main/java/me/fixeddev/inject/ProtectedModule.java
+index 8fe3be38..3a316c4b 100644
+--- a/api/src/main/java/net/md_5/bungee/inject/ProtectedModule.java
++++ b/api/src/main/java/me/fixeddev/inject/ProtectedModule.java
+@@ -1,4 +1,4 @@
+-package net.md_5.bungee.inject;
++package me.fixeddev.inject;
+ 
+ import com.google.inject.Binder;
+ import com.google.inject.Module;
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+index 63034b2d..80fa96da 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+@@ -11,8 +11,7 @@ import lombok.Getter;
+ import net.md_5.bungee.api.ProxyServer;
+ import net.md_5.bungee.api.config.ConfigurationAdapter;
+ import net.md_5.bungee.api.scheduler.GroupedThreadFactory;
+-import net.md_5.bungee.inject.ProtectedBinder;
+-import net.md_5.bungee.inject.ProtectedModule;
++import me.fixeddev.inject.ProtectedBinder;
+ 
+ /**
+  * Represents any Plugin that may be loaded at runtime to enhance existing
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+index 31487ff5..e5c89588 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+@@ -41,8 +41,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
+ import net.md_5.bungee.event.EventBus;
+ import net.md_5.bungee.event.EventHandler;
+ import net.md_5.bungee.event.EventHandlerMethod; //Waterfall - Exception event
+-import net.md_5.bungee.inject.ProtectedBinder;
+-import net.md_5.bungee.inject.ProtectedModule;
++import me.fixeddev.inject.ProtectedBinder;
+ import org.yaml.snakeyaml.Yaml;
+ import org.yaml.snakeyaml.constructor.Constructor;
+ import org.yaml.snakeyaml.introspector.PropertyUtils;
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+index aa5ce276..23a2a7ed 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+@@ -1,6 +1,6 @@
+ package net.md_5.bungee.api.plugin;
+ 
+-import net.md_5.bungee.inject.ProtectedModule;
++import me.fixeddev.inject.ProtectedModule;
+ 
+ public class PluginModule extends ProtectedModule
+ {
+-- 
+2.31.1.windows.1
+

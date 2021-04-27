@@ -1,0 +1,27 @@
+From 0b4455ea027c315d555d8f1399b589ccf0501da6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ian=20Casta=C3=B1o?= <ianfe@martina.com.co>
+Date: Mon, 26 Apr 2021 17:24:28 -0500
+Subject: [PATCH] Updated README
+
+
+diff --git a/README.md b/README.md
+index 3e64158e..36e24aff 100644
+--- a/README.md
++++ b/README.md
+@@ -1,10 +1,12 @@
+-BungeeCord
++BungeeCord [![Build Status](https://jenkins.astrocube.net/job/Waterfall/badge/icon)](https://jenkins.astrocube.net/job/Waterfall/)
+ ==========
+ Layer 7 proxy designed to link Minecraft servers.
+ --------------------------------------------------
+ 
+ BungeeCord is a sophisticated proxy and API designed mainly to teleport players between multiple Minecraft servers. It is the latest incarnation of similar software written by the author from 2011-present.
+ 
++_Note that this version includes Guice modules at every Plugin that you can use in `configure() {}`. Waterfall will inject them dynamically._
++
+ Information
+ -----------
+ BungeeCord is maintained by [SpigotMC](https://www.spigotmc.org/) and has its own [discussion thread](https://www.spigotmc.org/go/bungeecord) with plenty of helpful information and links.
+-- 
+2.31.1.windows.1
+
