@@ -1,0 +1,128 @@
+From dd31c45933ddb4a8e5a27d11c884aef7de94483f Mon Sep 17 00:00:00 2001
+From: yusshu <yushu@unnamed.team>
+Date: Fri, 20 Aug 2021 10:22:55 -0500
+Subject: [PATCH] Move `me.fixeddev.inject` to `net.astrocube.inject`
+
+
+diff --git a/api/src/main/java/me/fixeddev/inject/ForwardingBinder.java b/api/src/main/java/net/astrocube/inject/ForwardingBinder.java
+similarity index 98%
+rename from api/src/main/java/me/fixeddev/inject/ForwardingBinder.java
+rename to api/src/main/java/net/astrocube/inject/ForwardingBinder.java
+index 49eab110..fd2360a4 100644
+--- a/api/src/main/java/me/fixeddev/inject/ForwardingBinder.java
++++ b/api/src/main/java/net/astrocube/inject/ForwardingBinder.java
+@@ -1,6 +1,7 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.*;
++import com.google.inject.Module;
+ import com.google.inject.binder.AnnotatedBindingBuilder;
+ import com.google.inject.binder.AnnotatedConstantBindingBuilder;
+ import com.google.inject.binder.LinkedBindingBuilder;
+diff --git a/api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java b/api/src/main/java/net/astrocube/inject/ForwardingPrivateBinder.java
+similarity index 96%
+rename from api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java
+rename to api/src/main/java/net/astrocube/inject/ForwardingPrivateBinder.java
+index d34a7961..6da0c89b 100644
+--- a/api/src/main/java/me/fixeddev/inject/ForwardingPrivateBinder.java
++++ b/api/src/main/java/net/astrocube/inject/ForwardingPrivateBinder.java
+@@ -1,4 +1,4 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.Key;
+ import com.google.inject.PrivateBinder;
+diff --git a/api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java b/api/src/main/java/net/astrocube/inject/ForwardingProtectedBinder.java
+similarity index 94%
+rename from api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java
+rename to api/src/main/java/net/astrocube/inject/ForwardingProtectedBinder.java
+index 7bb8510f..1856260c 100644
+--- a/api/src/main/java/me/fixeddev/inject/ForwardingProtectedBinder.java
++++ b/api/src/main/java/net/astrocube/inject/ForwardingProtectedBinder.java
+@@ -1,4 +1,4 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.Binder;
+ 
+diff --git a/api/src/main/java/me/fixeddev/inject/ProtectedBinder.java b/api/src/main/java/net/astrocube/inject/ProtectedBinder.java
+similarity index 97%
+rename from api/src/main/java/me/fixeddev/inject/ProtectedBinder.java
+rename to api/src/main/java/net/astrocube/inject/ProtectedBinder.java
+index 43f10baf..7c474639 100644
+--- a/api/src/main/java/me/fixeddev/inject/ProtectedBinder.java
++++ b/api/src/main/java/net/astrocube/inject/ProtectedBinder.java
+@@ -1,4 +1,4 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.Binder;
+ 
+diff --git a/api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java b/api/src/main/java/net/astrocube/inject/ProtectedBinderImpl.java
+similarity index 98%
+rename from api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java
+rename to api/src/main/java/net/astrocube/inject/ProtectedBinderImpl.java
+index 201b91a6..a5928689 100644
+--- a/api/src/main/java/me/fixeddev/inject/ProtectedBinderImpl.java
++++ b/api/src/main/java/net/astrocube/inject/ProtectedBinderImpl.java
+@@ -1,4 +1,4 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.Binder;
+ import com.google.inject.Module;
+diff --git a/api/src/main/java/me/fixeddev/inject/ProtectedModule.java b/api/src/main/java/net/astrocube/inject/ProtectedModule.java
+similarity index 98%
+rename from api/src/main/java/me/fixeddev/inject/ProtectedModule.java
+rename to api/src/main/java/net/astrocube/inject/ProtectedModule.java
+index 3a316c4b..adbc9c61 100644
+--- a/api/src/main/java/me/fixeddev/inject/ProtectedModule.java
++++ b/api/src/main/java/net/astrocube/inject/ProtectedModule.java
+@@ -1,4 +1,4 @@
+-package me.fixeddev.inject;
++package net.astrocube.inject;
+ 
+ import com.google.inject.Binder;
+ import com.google.inject.Module;
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+index 80fa96da..8ba949a1 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/Plugin.java
+@@ -11,7 +11,7 @@ import lombok.Getter;
+ import net.md_5.bungee.api.ProxyServer;
+ import net.md_5.bungee.api.config.ConfigurationAdapter;
+ import net.md_5.bungee.api.scheduler.GroupedThreadFactory;
+-import me.fixeddev.inject.ProtectedBinder;
++import net.astrocube.inject.ProtectedBinder;
+ 
+ /**
+  * Represents any Plugin that may be loaded at runtime to enhance existing
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+index e5c89588..8baa8745 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginManager.java
+@@ -41,7 +41,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
+ import net.md_5.bungee.event.EventBus;
+ import net.md_5.bungee.event.EventHandler;
+ import net.md_5.bungee.event.EventHandlerMethod; //Waterfall - Exception event
+-import me.fixeddev.inject.ProtectedBinder;
++import net.astrocube.inject.ProtectedBinder;
+ import org.yaml.snakeyaml.Yaml;
+ import org.yaml.snakeyaml.constructor.Constructor;
+ import org.yaml.snakeyaml.introspector.PropertyUtils;
+diff --git a/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+index 23a2a7ed..a483dd65 100644
+--- a/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
++++ b/api/src/main/java/net/md_5/bungee/api/plugin/PluginModule.java
+@@ -1,6 +1,6 @@
+ package net.md_5.bungee.api.plugin;
+ 
+-import me.fixeddev.inject.ProtectedModule;
++import net.astrocube.inject.ProtectedModule;
+ 
+ public class PluginModule extends ProtectedModule
+ {
+-- 
+2.32.0
+
