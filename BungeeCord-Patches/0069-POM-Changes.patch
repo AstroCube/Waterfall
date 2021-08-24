@@ -1,0 +1,501 @@
+From fdcfdfbf4a5d40fb2918565ec3b98b3bbdc38b18 Mon Sep 17 00:00:00 2001
+From: yusshu <yushu@unnamed.team>
+Date: Tue, 24 Aug 2021 12:37:15 -0500
+Subject: [PATCH] POM Changes
+
+
+diff --git a/api/pom.xml b/api/pom.xml
+index 490e0eb3..dbee5604 100644
+--- a/api/pom.xml
++++ b/api/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-api</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -25,25 +25,25 @@
+             <version>5.0.1</version>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-chat</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-config</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-event</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-protocol</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/bootstrap/pom.xml b/bootstrap/pom.xml
+index 37c0880c..96481afa 100644
+--- a/bootstrap/pom.xml
++++ b/bootstrap/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-bootstrap</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -29,7 +29,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-proxy</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/chat/pom.xml b/chat/pom.xml
+index 85309233..64dfc709 100644
+--- a/chat/pom.xml
++++ b/chat/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-chat</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/config/pom.xml b/config/pom.xml
+index 38db2292..4668f52d 100644
+--- a/config/pom.xml
++++ b/config/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-config</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/event/pom.xml b/event/pom.xml
+index 82a411b0..f2d1b5fd 100644
+--- a/event/pom.xml
++++ b/event/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-event</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/log/pom.xml b/log/pom.xml
+index 646dbfae..3670c9ce 100644
+--- a/log/pom.xml
++++ b/log/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-log</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -26,7 +26,7 @@
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-chat</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/log4j/pom.xml b/log4j/pom.xml
+index 51187fd1..d284cc20 100644
+--- a/log4j/pom.xml
++++ b/log4j/pom.xml
+@@ -3,13 +3,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-log4j</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/cmd-alert/pom.xml b/module/cmd-alert/pom.xml
+index 472314c2..06965c82 100644
+--- a/module/cmd-alert/pom.xml
++++ b/module/cmd-alert/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-cmd-alert</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/cmd-find/pom.xml b/module/cmd-find/pom.xml
+index de8faee0..9bc69b97 100644
+--- a/module/cmd-find/pom.xml
++++ b/module/cmd-find/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-cmd-find</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/cmd-list/pom.xml b/module/cmd-list/pom.xml
+index 0cab9a7a..161ff13f 100644
+--- a/module/cmd-list/pom.xml
++++ b/module/cmd-list/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-cmd-list</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/cmd-send/pom.xml b/module/cmd-send/pom.xml
+index 240c9548..157def6d 100644
+--- a/module/cmd-send/pom.xml
++++ b/module/cmd-send/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-cmd-send</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/cmd-server/pom.xml b/module/cmd-server/pom.xml
+index 4c13d517..38a9f5b3 100644
+--- a/module/cmd-server/pom.xml
++++ b/module/cmd-server/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-cmd-server</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/module/pom.xml b/module/pom.xml
+index c9849b6c..33aeb017 100644
+--- a/module/pom.xml
++++ b/module/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>pom</packaging>
+@@ -35,7 +35,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-api</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/module/reconnect-yaml/pom.xml b/module/reconnect-yaml/pom.xml
+index 45910b0e..89b58fc6 100644
+--- a/module/reconnect-yaml/pom.xml
++++ b/module/reconnect-yaml/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-module</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-module-reconnect-yaml</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/native/pom.xml b/native/pom.xml
+index db15febb..28e2b4af 100644
+--- a/native/pom.xml
++++ b/native/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-native</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+diff --git a/pom.xml b/pom.xml
+index d8b23f3b..9ae09adc 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-super</artifactId>
+         <version>dev-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-parent</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>pom</packaging>
+diff --git a/protocol/pom.xml b/protocol/pom.xml
+index 402266ca..5f28e56e 100644
+--- a/protocol/pom.xml
++++ b/protocol/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-protocol</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -41,7 +41,7 @@
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-chat</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/proxy/pom.xml b/proxy/pom.xml
+index ca1fc13b..dbc81deb 100644
+--- a/proxy/pom.xml
++++ b/proxy/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-proxy</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -64,31 +64,31 @@
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-api</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-log4j</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-native</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-protocol</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-query</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+diff --git a/query/pom.xml b/query/pom.xml
+index 8ce88f4a..bd022361 100644
+--- a/query/pom.xml
++++ b/query/pom.xml
+@@ -4,13 +4,13 @@
+     <modelVersion>4.0.0</modelVersion>
+ 
+     <parent>
+-        <groupId>io.github.waterfallmc</groupId>
++        <groupId>net.astrocube.waterfall</groupId>
+         <artifactId>waterfall-parent</artifactId>
+         <version>1.16-R0.5-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>io.github.waterfallmc</groupId>
++    <groupId>net.astrocube.waterfall</groupId>
+     <artifactId>waterfall-query</artifactId>
+     <version>1.16-R0.5-SNAPSHOT</version>
+     <packaging>jar</packaging>
+@@ -26,7 +26,7 @@
+             <scope>compile</scope>
+         </dependency>
+         <dependency>
+-            <groupId>io.github.waterfallmc</groupId>
++            <groupId>net.astrocube.waterfall</groupId>
+             <artifactId>waterfall-api</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+-- 
+2.33.0
+
